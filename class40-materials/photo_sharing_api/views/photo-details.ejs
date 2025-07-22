@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+
+  <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-xl space-y-4 text-center">
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">📸 Photo Sharing Application</h1>
+
+    <img src="<%= photo.image_url %>" alt="<%= photo.caption %>"
+      class="w-full h-auto rounded-lg border object-cover max-h-[500px] mx-auto" />
+
+    <h3 class="text-xl font-semibold text-gray-700">🖼️ Caption: <span class="font-normal"><%= photo.caption %></span></h3>
+
+    <p class="text-gray-600">📅 Created At: <%= new Date(photo.createdAt).toLocaleString() %></p>
+    <p class="text-gray-600">🔁 Updated At: <%= new Date(photo.updatedAt).toLocaleString() %></p>
+
+    <button
+      class="like_btn mt-4 bg-pink-500 hover:bg-pink-600 text-white font-semibold px-4 py-2 rounded-full transition duration-200">
+      ❤️ Like <span><%= photo.likes %></span>
+    </button>
+
+    <div class="mt-4">
+      <a href="/"
+        class="text-blue-600 hover:underline inline-block mt-2">← Back to Photos</a>
+    </div>
+  </div>
+
+  <script>
+    const likeBtn = document.querySelector('.like_btn');
+
+    likeBtn.addEventListener('click', async function () {
+      const res = await fetch(`/photos/<%= photo._id %>`, {
+        method: "PUT",
+      });
+      const data = await res.json();
+      window.location.reload();
+    });
+  </script>
+</body>
+
+</html>
